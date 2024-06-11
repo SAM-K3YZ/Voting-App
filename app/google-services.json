@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "284992308256",
+    "project_id": "mandavotingapp",
+    "storage_bucket": "mandavotingapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:284992308256:android:086c9ad13e1b56e6312845",
+        "android_client_info": {
+          "package_name": "com.finalYearProject.votingapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCADH99EW9QmjRrPdhRdsxe_2wZeItOOkQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

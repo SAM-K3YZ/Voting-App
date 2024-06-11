@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">VotingApp</string>
+    <string name="home">Home</string>
+    <string name="vote">Vote</string>
+    <string name="profile">Profile</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="log_out">Log Out</string>
+    <string name="govote">GoVote</string>
+    <string name="welcome">Welcome!</string>
+    <string name="view_all">View All</string>
+    <string name="result">Result</string>
+    <string name="user">User</string>
+    <string name="previousElection">Previous Election</string>
+    <string name="ongoingElection">Ongoing Election</string>
+    <string name="president">President</string>
+    <string name="amanda">Chinweze Chimamanda</string>
+    <string name="votes">500</string>
+    <string name="voteText">Vote(s)</string>
+</resources>
