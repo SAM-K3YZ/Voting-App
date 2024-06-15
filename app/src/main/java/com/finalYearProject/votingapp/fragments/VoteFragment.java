@@ -43,10 +43,10 @@ public class VoteFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private CircleImageView circleImg;
-    private TextView nameTxt,nationalIdTxt;
+    private TextView nameTxt, nationalIdTxt;
     private FirebaseFirestore firebaseFirestore;
     private String uid;
-    private Button createBtn, voteBtn,startBtn;
+    private Button createBtn, voteBtn, startBtn;
 
     public VoteFragment() {
         // Required empty public constructor
@@ -79,18 +79,18 @@ public class VoteFragment extends Fragment {
         }
 
         firebaseFirestore = FirebaseFirestore.getInstance();
-        uid= Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+        uid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
 
         firebaseFirestore.collection("Users").document(uid)
                 .get().addOnCompleteListener
                         (new OnCompleteListener<DocumentSnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                if(task.isSuccessful()){
-                                    String name=task.getResult().getString("name");
-                                    String nationalId=task.getResult().getString("nationalId");
+                                if (task.isSuccessful()) {
+                                    String name = task.getResult().getString("name");
+                                    String nationalId = task.getResult().getString("nationalId");
                                     //assert name!=null;
-                                    if(name!=null) {
+                                    if (name != null) {
                                         if (name.equals("admin")) {
                                             createBtn.setVisibility(View.VISIBLE);
                                             startBtn.setVisibility(View.VISIBLE);
@@ -100,12 +100,12 @@ public class VoteFragment extends Fragment {
                                             startBtn.setVisibility(View.GONE);
                                             voteBtn.setVisibility(View.VISIBLE);
                                         }
-                                    }else{
+                                    } else {
                                         Toast.makeText(getActivity(), "cannot retrieve data", Toast.LENGTH_SHORT).show();
                                     }
                                     nameTxt.setText(name);
                                     nationalIdTxt.setText(nationalId);
-                                }else{
+                                } else {
                                     Toast.makeText(getActivity(), "user not found", Toast.LENGTH_SHORT).show();
                                 }
                             }
@@ -127,7 +127,7 @@ public class VoteFragment extends Fragment {
         nationalIdTxt = view.findViewById(R.id.national_id);
         createBtn = view.findViewById(R.id.admin_btn);
         voteBtn = view.findViewById(R.id.give_vote);
-        startBtn= view.findViewById(R.id.candidate_create_voting);
+        startBtn = view.findViewById(R.id.candidate_create_voting);
 
 
         createBtn.setOnClickListener(new View.OnClickListener() {
@@ -140,7 +140,6 @@ public class VoteFragment extends Fragment {
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 startActivity(new Intent(getActivity(), AllCandidateActivity.class));
             }
         });

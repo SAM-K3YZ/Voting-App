@@ -1,37 +1,31 @@
 package com.finalYearProject.votingapp.fragments;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
+import com.finalYearProject.votingapp.manager.PreviousElectionManager;
 import com.finalYearProject.votingapp.R;
-import com.finalYearProject.votingapp.activities.AllCandidateActivity;
-import com.finalYearProject.votingapp.activities.Create_Candidate_Activity;
-import com.finalYearProject.votingapp.activities.HomeActivity;
-import com.finalYearProject.votingapp.activities.LoginActivity;
-import com.finalYearProject.votingapp.activities.ResultActivity;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
+import com.finalYearProject.votingapp.activities.PreviousElectionViewAllActivity;
+import com.finalYearProject.votingapp.adapters.PreviousElectionAdapter;
+import com.finalYearProject.votingapp.model.PreviousElection;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.Objects;
-
-import de.hdodenhof.circleimageview.CircleImageView;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -48,6 +42,13 @@ public class HomeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private static final String TAG = "HomeFragment";
+    private FirebaseFirestore db;
+    private RecyclerView recyclerView;
+    private PreviousElectionAdapter adapter;
+    private List<PreviousElection> previousElectionList;
+    private PreviousElectionManager previousElectionManager;
+
 
     public HomeFragment() {
         // Required empty public constructor
@@ -78,6 +79,12 @@ public class HomeFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        previousElectionManager = new PreviousElectionManager();
+        // Populate the Firestore with initial data
+        previousElectionManager.populatePreviousElectionDetails();
+        // Fetch previous elections from Firestore
+        fetchPreviousElections();
+
     }
 
     @Override
@@ -91,7 +98,37 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        recyclerView = view.findViewById(R.id.previousElectionRecycler);
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        previousElectionList = new ArrayList<>();
 
+        adapter = new PreviousElectionAdapter(previousElectionList, view1 -> {
+            Intent intent = new Intent(getActivity(), PreviousElectionViewAllActivity.class);
+            startActivity(intent);
+        }, true);
+        recyclerView.setAdapter(adapter);
+    }
 
+    private void fetchPreviousElections() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("previous_election")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(QuerySnapshot value, FirebaseFirestoreException error) {
+                        if (error != null) {
+                            System.err.println("Listen failed: " + error);
+                            return;
+                        }
+
+                        previousElectionList.clear();
+                        for (DocumentSnapshot doc : value.getDocuments()) {
+                            if (doc.exists()) {
+                                PreviousElection election = doc.toObject(PreviousElection.class);
+                                previousElectionList.add(election);
+                            }
+                        }
+                        adapter.notifyDataSetChanged();
+                    }
+                });
     }
 }

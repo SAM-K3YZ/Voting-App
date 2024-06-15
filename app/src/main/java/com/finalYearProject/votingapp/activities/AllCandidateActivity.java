@@ -41,36 +41,39 @@ public class AllCandidateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_candidate);
 
-        candidateRV=findViewById(R.id.candidates_rv);
-        startBtn=findViewById(R.id.start);
-        firebaseFirestore =FirebaseFirestore.getInstance();
+        candidateRV = findViewById(R.id.candidates_rv);
+        startBtn = findViewById(R.id.start);
+        firebaseFirestore = FirebaseFirestore.getInstance();
 
 
         list = new ArrayList<>();
-        adapter=new CandidateAdapter(AllCandidateActivity.this,list);
+        adapter = new CandidateAdapter(AllCandidateActivity.this, list);
         candidateRV.setLayoutManager(new LinearLayoutManager(AllCandidateActivity.this));
         candidateRV.setAdapter(adapter);
 
 
-        if(FirebaseAuth.getInstance().getCurrentUser()!=null){
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             firebaseFirestore.collection("Candidate")
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @SuppressLint("NotifyDataSetChanged")
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if(task.isSuccessful()){
-                                for(DocumentSnapshot snapshot:task.getResult()){
+                            if (task.isSuccessful()) {
+                                for (DocumentSnapshot snapshot : task.getResult()) {
                                     list.add(new Candidate(
                                             snapshot.getString("name"),
-                                            snapshot.getString("party"),
+                                            snapshot.getString("department"),
                                             snapshot.getString("post"),
+                                            snapshot.getString("level"),
+                                            snapshot.getString("manifesto"),
+                                            snapshot.getString("gender"),
                                             snapshot.getId()
                                     ));
                                 }
                                 adapter.notifyDataSetChanged();
 
-                            }else{
+                            } else {
                                 Toast.makeText(AllCandidateActivity.this, "Candidate not found", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -78,13 +81,12 @@ public class AllCandidateActivity extends AppCompatActivity {
         }
 
 
-
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        String uid=FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         FirebaseFirestore.getInstance().collection("Users")
                 .document(uid)

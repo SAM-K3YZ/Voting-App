@@ -20,39 +20,41 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class CandidateAdapter extends RecyclerView.Adapter<CandidateAdapter.ViewHolder>{
+public class CandidateAdapter extends RecyclerView.Adapter<CandidateAdapter.ViewHolder> {
     private AllCandidateActivity context;
     private List<Candidate> list;
 
-    public CandidateAdapter(AllCandidateActivity context, List<Candidate>list) {
+    public CandidateAdapter(AllCandidateActivity context, List<Candidate> list) {
         this.context = context;
-        this.list= list;
+        this.list = list;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(context).inflate(R.layout.candidate_layout,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.ongoing_election_card, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder,@SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.name.setText(list.get(position).getName());
-        holder.party.setText(list.get(position).getParty());
-        holder.position.setText(list.get(position).getParty());
+        holder.department.setText(list.get(position).getDepartment());
+        holder.position.setText(list.get(position).getPosition());
 
         //Glide.with(context).load(list.get(position).getImage()).into(holder.image);
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent =new Intent(context, VotingActivity.class);
-                intent.putExtra("name",list.get(position).getName());
-                intent.putExtra("party",list.get(position).getParty());
-                intent.putExtra("post",list.get(position).getPosition());
+                Intent intent = new Intent(context, VotingActivity.class);
+                intent.putExtra("name", list.get(position).getName());
+                intent.putExtra("post", list.get(position).getPosition());
+                intent.putExtra("department", list.get(position).getDepartment());
+                intent.putExtra("level", list.get(position).getLevel());
+                intent.putExtra("manifesto", list.get(position).getManifesto());
                 //intent.putExtra("image",list.get(position).getImage());
-                intent.putExtra("id",list.get(position).getId());
+                intent.putExtra("id", list.get(position).getId());
                 context.startActivity(intent);
                 /*Activity activity= (Activity) context;
                 activity.finish();*/
@@ -65,21 +67,21 @@ public class CandidateAdapter extends RecyclerView.Adapter<CandidateAdapter.View
         return list.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         private CircleImageView image;
-        private TextView name,position,party;
+        private TextView name, position, department;
         //private Button voteBtn;
         private CardView cardView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             //image= itemView.findViewById(R.id.image);
-            name=itemView.findViewById(R.id.name);
-            position=itemView.findViewById(R.id.post);
-            party=itemView.findViewById(R.id.party);
+            name = itemView.findViewById(R.id.ogName);
+            position = itemView.findViewById(R.id.post);
+            department = itemView.findViewById(R.id.party);
             //voteBtn=itemView.findViewById(R.id.vote_btn);
-            cardView=itemView.findViewById(R.id.card_view);
+            cardView = itemView.findViewById(R.id.card_view);
 
         }
     }

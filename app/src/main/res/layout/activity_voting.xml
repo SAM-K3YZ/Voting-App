@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".activities.VotingActivity">
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -19,61 +20,112 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/name"
+        android:id="@+id/votingName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         android:padding="8dp"
-        android:text="Name"
+        android:text="@string/candidate_s_name"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/image"
         app:layout_constraintStart_toStartOf="@+id/image"
         app:layout_constraintTop_toBottomOf="@+id/image" />
+
     <TextView
-        android:id="@+id/party"
+        android:id="@+id/votingGender"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:layout_marginTop="4dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         android:padding="8dp"
-        android:text="Party"
-        android:textStyle="bold"
+        android:text="@string/candidate_s_level"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@+id/name"
-        app:layout_constraintStart_toStartOf="@+id/name"
-        app:layout_constraintTop_toBottomOf="@+id/name" />
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/votingName"
+        app:layout_constraintStart_toStartOf="@+id/votingName"
+        app:layout_constraintTop_toBottomOf="@+id/votingName" />
+
     <TextView
-        android:id="@+id/post"
+        android:id="@+id/votingLevel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:layout_marginTop="4dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         android:padding="8dp"
-        android:text="Post"
-        android:textStyle="bold"
+        android:text="@string/candidate_s_gender"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@+id/party"
-        app:layout_constraintStart_toStartOf="@+id/party"
-        app:layout_constraintTop_toBottomOf="@+id/party" />
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/votingGender"
+        app:layout_constraintStart_toStartOf="@+id/votingGender"
+        app:layout_constraintTop_toBottomOf="@+id/votingGender" />
+
+    <TextView
+        android:id="@+id/votingPost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:padding="8dp"
+        android:text="@string/candidate_s_department"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/votingLevel"
+        app:layout_constraintStart_toStartOf="@+id/votingLevel"
+        app:layout_constraintTop_toBottomOf="@+id/votingLevel" />
+
+    <TextView
+        android:id="@+id/votingDepartment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:padding="8dp"
+        android:text="@string/candidate_s_post"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/votingPost"
+        app:layout_constraintStart_toStartOf="@+id/votingPost"
+        app:layout_constraintTop_toBottomOf="@+id/votingPost" />
+
+    <TextView
+        android:id="@+id/votingManifesto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:padding="8dp"
+        android:text="@string/candidate_s_manifesto"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/votingDepartment"
+        app:layout_constraintStart_toStartOf="@+id/votingDepartment"
+        app:layout_constraintTop_toBottomOf="@+id/votingDepartment" />
+
     <Button
         android:id="@+id/vote_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@+id/post"
         android:layout_margin="16dp"
-        android:layout_marginTop="4dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         android:padding="8dp"
-        android:text="Vote"
-        app:layout_constraintStart_toStartOf="@+id/post"
-        app:layout_constraintTop_toBottomOf="@+id/post"/>
+        android:text="@string/vote"
+        app:layout_constraintEnd_toEndOf="@+id/votingManifesto"
+        app:layout_constraintStart_toStartOf="@+id/votingManifesto"
+        app:layout_constraintTop_toBottomOf="@+id/votingManifesto" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

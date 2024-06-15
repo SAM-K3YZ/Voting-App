@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/previousElectionCard"
-    android:layout_width="match_parent"
-    android:layout_height="400dp"
+    android:id="@+id/ongoingElectionCard"
+    android:layout_width="200dp"
+    android:layout_height="250dp"
+    android:layout_marginEnd="20dp"
     android:background="@color/white"
     app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="20dp"
@@ -13,7 +14,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="15dp">
+        android:padding="10dp">
 
         <ImageView
             android:id="@+id/userPic"
@@ -51,50 +52,5 @@
             android:textColor="@color/black"
             android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/user_sLevel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/post"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="5dp"
-            android:fontFamily="sans-serif"
-            android:text="@string/president"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/voteCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/post"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="80dp"
-            android:fontFamily="sans-serif-black"
-            android:text="@string/votes"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/votesText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/voteCount"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="3dp"
-            android:fontFamily="sans-serif"
-            android:text="@string/voteText"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
-
-
     </RelativeLayout>
-
-
 </androidx.cardview.widget.CardView>

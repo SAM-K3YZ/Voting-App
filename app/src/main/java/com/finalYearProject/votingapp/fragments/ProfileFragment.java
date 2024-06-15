@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.finalYearProject.votingapp.R;
 import com.finalYearProject.votingapp.activities.LoginActivity;
@@ -41,10 +42,10 @@ public class ProfileFragment extends Fragment {
     private String mParam2;
     private String uid;
     private FirebaseFirestore firebaseFirestore;
-    public static final String PREFERENCES="prefkey";
+    public static final String PREFERENCES = "prefkey";
     SharedPreferences sharedPreferences;
-    public static final String IsLogIn="islogin";
-    Button logOutBtn;
+    public static final String IsLogIn = "islogin";
+    ImageView logOutBtn;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -91,23 +92,23 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         firebaseFirestore = FirebaseFirestore.getInstance();
-        uid= Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+        uid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
 
-        sharedPreferences= getActivity().getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
-        SharedPreferences.Editor pref=sharedPreferences.edit();
-        pref.putBoolean(IsLogIn,true);
+        sharedPreferences = getActivity().getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor pref = sharedPreferences.edit();
+        pref.putBoolean(IsLogIn, true);
         pref.apply();
 
-        logOutBtn = view.findViewById(R.id.logOut);
+        logOutBtn = view.findViewById(R.id.logOutBtn);
 
 
         logOutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FirebaseAuth.getInstance().signOut();
-                pref.putBoolean(IsLogIn,false);
+                pref.putBoolean(IsLogIn, false);
                 pref.commit();
-                startActivity(new Intent(getActivity(), LoginActivity.class ));
+                startActivity(new Intent(getActivity(), LoginActivity.class));
                 //finish();
             }
         });
@@ -116,18 +117,18 @@ public class ProfileFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
-        SharedPreferences.Editor pref=sharedPreferences.edit();
-        if (itemId == R.id.show_results){
+        SharedPreferences.Editor pref = sharedPreferences.edit();
+        if (itemId == R.id.show_results) {
             startActivity(new Intent(getActivity(), ResultActivity.class));
             return true;
         } else if (itemId == R.id.log_out) {
             FirebaseAuth.getInstance().signOut();
-            pref.putBoolean(IsLogIn,false);
+            pref.putBoolean(IsLogIn, false);
             pref.commit();
-            startActivity(new Intent(getActivity(),LoginActivity.class ));
+            startActivity(new Intent(getActivity(), LoginActivity.class));
             //finish();
             return true;
-        }else {
+        } else {
             return super.onOptionsItemSelected(item);
         }
     }

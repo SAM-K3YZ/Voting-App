@@ -23,49 +23,49 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class CandidateResultAdapter extends RecyclerView.Adapter<CandidateResultAdapter.ViewHolder>{
+public class CandidateResultAdapter extends RecyclerView.Adapter<CandidateResultAdapter.ViewHolder> {
     private Context context;
     private List<Candidate> list;
     private FirebaseFirestore firebaseFirestore;
 
-    public CandidateResultAdapter(ResultActivity context, List<Candidate>list) {
+    public CandidateResultAdapter(ResultActivity context, List<Candidate> list) {
         this.context = context;
-        this.list= list;
-        firebaseFirestore=FirebaseFirestore.getInstance();
+        this.list = list;
+        firebaseFirestore = FirebaseFirestore.getInstance();
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(context)
-                .inflate(R.layout.candidate_result_layout,parent,false);
+        View view = LayoutInflater.from(context)
+                .inflate(R.layout.candidate_result_layout, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder,@SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.name.setText(list.get(position).getName());
-        holder.party.setText(list.get(position).getParty());
-        holder.position.setText(list.get(position).getParty());
+        holder.department.setText(list.get(position).getDepartment());
+        holder.position.setText(list.get(position).getPosition());
 
         //Glide.with(context).load(list.get(position).getImage()).into(holder.image);
 
-        firebaseFirestore.collection("Candidate/"+list.get(position).getId()+"/Vote")
+        firebaseFirestore.collection("Candidate/" + list.get(position).getId() + "/Vote")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot documentSnapshots, @Nullable FirebaseFirestoreException error) {
-                        if(!documentSnapshots.isEmpty()){
-                            int count=documentSnapshots.size();
-                            Candidate candidate =list.get(position);
+                        if (!documentSnapshots.isEmpty()) {
+                            int count = documentSnapshots.size();
+                            Candidate candidate = list.get(position);
                             candidate.setCount(count);
-                            list.set(position,candidate);
+                            list.set(position, candidate);
                             notifyDataSetChanged();
 
                         }
                     }
                 });
 
-        holder.result.setText("Result:"+list.get(position).getCount());
+        holder.result.setText("Result:" + list.get(position).getCount());
     }
 
     @Override
@@ -73,20 +73,19 @@ public class CandidateResultAdapter extends RecyclerView.Adapter<CandidateResult
         return list.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         private CircleImageView image;
-        private TextView name,position,party,result;
-
+        private TextView name, position, department, result;
 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             //image= itemView.findViewById(R.id.image);
-            name=itemView.findViewById(R.id.name);
-            position=itemView.findViewById(R.id.post);
-            party=itemView.findViewById(R.id.party);
-            result=itemView.findViewById(R.id.candidate_result);
+            name = itemView.findViewById(R.id.name);
+            position = itemView.findViewById(R.id.post);
+            department = itemView.findViewById(R.id.party);
+            result = itemView.findViewById(R.id.candidate_result);
 
 
         }

@@ -40,35 +40,38 @@ public class ResultActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
-        resultRV=findViewById(R.id.result_rv);
-        warningText=findViewById( R.id.warning_text);
-        firebaseFirestore =FirebaseFirestore.getInstance();
+        resultRV = findViewById(R.id.result_rv);
+        warningText = findViewById(R.id.warning_text);
+        firebaseFirestore = FirebaseFirestore.getInstance();
 
 
         list = new ArrayList<>();
-        adapter=new CandidateResultAdapter(ResultActivity.this,list);
+        adapter = new CandidateResultAdapter(ResultActivity.this, list);
         resultRV.setLayoutManager(new LinearLayoutManager(ResultActivity.this));
         resultRV.setAdapter(adapter);
 
-        if(FirebaseAuth.getInstance().getCurrentUser()!=null){
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             firebaseFirestore.collection("Candidate")
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @SuppressLint("NotifyDataSetChanged")
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if(task.isSuccessful()){
-                                for(DocumentSnapshot snapshot:task.getResult()){
+                            if (task.isSuccessful()) {
+                                for (DocumentSnapshot snapshot : task.getResult()) {
                                     list.add(new Candidate(
                                             snapshot.getString("name"),
-                                            snapshot.getString("party"),
+                                            snapshot.getString("department"),
                                             snapshot.getString("post"),
+                                            snapshot.getString("level"),
+                                            snapshot.getString("manifesto"),
+                                            snapshot.getString("gender"),
                                             snapshot.getId()
                                     ));
                                 }
                                 adapter.notifyDataSetChanged();
 
-                            }else{
+                            } else {
                                 Toast.makeText(ResultActivity.this, "Candidate not found", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -80,7 +83,7 @@ public class ResultActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        String uid=FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         FirebaseFirestore.getInstance().collection("Users")
                 .document(uid)
@@ -88,17 +91,17 @@ public class ResultActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        String finish=task.getResult().getString("finish");
+                        String finish = task.getResult().getString("finish");
                         //assert finish!=null;
-                        if(finish!=null){
-                            if(!finish.equals("voted")){
+                        if (finish != null) {
+                            if (!finish.equals("voted")) {
                                 resultRV.setVisibility(View.GONE);
                                 warningText.setVisibility(View.VISIBLE);
-                            }else {
+                            } else {
                                 resultRV.setVisibility(View.VISIBLE);
                                 warningText.setVisibility(View.GONE);
                             }
-                        }else{
+                        } else {
                             warningText.setVisibility(View.VISIBLE);
                         }
                     }

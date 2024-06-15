@@ -4,10 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:cardCornerRadius="8dp"
+    android:layout_height="wrap_content"
     android:layout_margin="16dp"
+    android:background="@color/white"
+    app:cardCornerRadius="8dp"
     app:cardElevation="16dp">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -25,11 +27,11 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/name"
+            android:id="@+id/crName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
             android:padding="8dp"
             android:text="Name"
@@ -38,52 +40,54 @@
             app:layout_constraintEnd_toEndOf="@+id/image"
             app:layout_constraintStart_toStartOf="@+id/image"
             app:layout_constraintTop_toBottomOf="@+id/image" />
+
         <TextView
-            android:id="@+id/party"
+            android:id="@+id/crDepartment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:layout_marginTop="4dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
             android:padding="8dp"
-            android:text="Party"
-            android:textStyle="bold"
+            android:text="@string/candidate_s_department"
             android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="@+id/name"
-            app:layout_constraintStart_toStartOf="@+id/name"
-            app:layout_constraintTop_toBottomOf="@+id/name" />
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/crName"
+            app:layout_constraintStart_toStartOf="@+id/crName"
+            app:layout_constraintTop_toBottomOf="@+id/crName" />
+
         <TextView
-            android:id="@+id/post"
+            android:id="@+id/crPost"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:layout_marginTop="4dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
             android:padding="8dp"
             android:text="Post"
-            android:textStyle="bold"
             android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="@+id/party"
-            app:layout_constraintStart_toStartOf="@+id/party"
-            app:layout_constraintTop_toBottomOf="@+id/party" />
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/crDepartment"
+            app:layout_constraintStart_toStartOf="@+id/crDepartment"
+            app:layout_constraintTop_toBottomOf="@+id/crDepartment" />
 
         <TextView
             android:id="@+id/candidate_result"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginBottom="20dp"
             android:padding="8dp"
-            android:textStyle="bold"
             android:text="Result:0"
             android:textColor="@color/black"
-            app:layout_constraintEnd_toEndOf="@+id/post"
-            app:layout_constraintStart_toStartOf="@+id/post"
-            app:layout_constraintTop_toBottomOf="@+id/post" />
-
-
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/crPost"
+            app:layout_constraintStart_toStartOf="@+id/crPost"
+            app:layout_constraintTop_toBottomOf="@+id/crPost" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.cardview.widget.CardView>
