@@ -46,4 +46,8 @@
     <string name="full_name">Full Name</string>
     <string name="reg_number">Registration Number</string>
     <string name="already_have_an_account_sign_in">Already have an account? Sign In</string>
+    <string name="apply_for_post">Apply for a post</string>
+    <string name="decline">Decline</string>
+    <string name="approve">Approve</string>
+    <string name="time">2s</string>
 </resources>

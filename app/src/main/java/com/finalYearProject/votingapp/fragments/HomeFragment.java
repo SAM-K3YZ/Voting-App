@@ -7,24 +7,34 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.finalYearProject.votingapp.CandidatesActivity;
+import com.finalYearProject.votingapp.adapters.HomeCategoriesAdapter;
 import com.finalYearProject.votingapp.manager.PreviousElectionManager;
 import com.finalYearProject.votingapp.R;
 import com.finalYearProject.votingapp.activities.PreviousElectionViewAllActivity;
 import com.finalYearProject.votingapp.adapters.PreviousElectionAdapter;
+import com.finalYearProject.votingapp.model.Candidate;
+import com.finalYearProject.votingapp.model.OngoingElection;
 import com.finalYearProject.votingapp.model.PreviousElection;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -32,7 +42,7 @@ import java.util.List;
  * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements HomeCategoriesAdapter.OnCategoryClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -44,9 +54,10 @@ public class HomeFragment extends Fragment {
     private String mParam2;
     private static final String TAG = "HomeFragment";
     private FirebaseFirestore db;
-    private RecyclerView recyclerView;
+    private RecyclerView recyclerView, ogRecyclerView;
     private PreviousElectionAdapter adapter;
     private List<PreviousElection> previousElectionList;
+    private List<OngoingElection> ongoingElectionList;
     private PreviousElectionManager previousElectionManager;
 
 
@@ -81,7 +92,7 @@ public class HomeFragment extends Fragment {
         }
         previousElectionManager = new PreviousElectionManager();
         // Populate the Firestore with initial data
-        previousElectionManager.populatePreviousElectionDetails();
+        //previousElectionManager.populatePreviousElectionDetails();
         // Fetch previous elections from Firestore
         fetchPreviousElections();
 
@@ -98,6 +109,16 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        //onGoing election category display
+        ogRecyclerView = view.findViewById(R.id.onGoingRecycler);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        ogRecyclerView.setLayoutManager(layoutManager);
+
+        List<String> categories = Arrays.asList("President", "Labour", "Financial Secretary", "Director of Sports");
+        HomeCategoriesAdapter adapter2 = new HomeCategoriesAdapter(categories, this);
+        ogRecyclerView.setAdapter(adapter2);
+
+
         recyclerView = view.findViewById(R.id.previousElectionRecycler);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         previousElectionList = new ArrayList<>();
@@ -131,4 +152,61 @@ public class HomeFragment extends Fragment {
                     }
                 });
     }
+
+    public void fetchCandidatesByPost(String post) {
+        db.collection("Candidate")
+                .whereEqualTo("post", post)
+                .orderBy("votes", Query.Direction.DESCENDING)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            List<Candidate> candidateList = new ArrayList<>();
+                            for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                Candidate candidate = documentSnapshot.toObject(Candidate.class);
+                                candidateList.add(candidate);
+                            }
+                            //pass this candidateList to your RecyclerView adapter
+                        } else {
+                            // handle the error here
+                        }
+                    }
+                });
+
+    }
+
+//    public void fetchCandidateByCategory(){
+//        FirebaseFirestore db = FirebaseFirestore.getInstance();
+//
+//        db.collection("Candidate")
+//                .whereEqualTo("category", selectedCategory)
+//                .orderBy("votes", Query.Direction.DESCENDING)
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            List<Candidate> candidates = new ArrayList<>();
+//                            for (QueryDocumentSnapshot document : task.getResult()) {
+//                                Candidate candidate = document.toObject(Candidate.class);
+//                                candidates.add(candidate);
+//                            }
+//                            // Pass the candidates list to the adapter
+//                            candidatesAdapter.setCandidates(candidates);
+//                        } else {
+//                            Log.w(TAG, "Error getting documents.", task.getException());
+//                        }
+//                    }
+//                });
+//
+//    }
+
+    @Override
+    public void onCategoryClick(String category) {
+        Intent intent = new Intent(getActivity(), CandidatesActivity.class);
+        intent.putExtra("category", category);
+        startActivity(intent);
+    }
+
 }

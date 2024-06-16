@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -23,6 +24,7 @@ public class ForgetPasswordActivity extends AppCompatActivity {
 
     private EditText emailEDT;
     private Button reset;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,17 +33,20 @@ public class ForgetPasswordActivity extends AppCompatActivity {
 
         emailEDT =findViewById(R.id.email_edit);
         reset=findViewById(R.id.button);
+        progressBar = findViewById(R.id.fp_progress_bar);
 
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String email=emailEDT.getText().toString().trim();
                 if(!TextUtils.isEmpty(email)){
+                    setInProgress(false);
                     FirebaseAuth auth=FirebaseAuth.getInstance();
                     auth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
+                                setInProgress(true);
                                 Toast.makeText(ForgetPasswordActivity.this, "Check Your Email", Toast.LENGTH_SHORT).show();
                                 finish();
                             }else{
@@ -54,5 +59,15 @@ public class ForgetPasswordActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    void setInProgress(boolean inProgress){
+        if(inProgress){
+            progressBar.setVisibility(View.VISIBLE);
+            reset.setVisibility(View.GONE);
+        }else{
+            progressBar.setVisibility(View.GONE);
+            reset.setVisibility(View.VISIBLE);
+        }
     }
 }

@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_green"
+    android:background="@drawable/bg1"
     android:padding="20dp">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="20dp"
         app:cardElevation="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -26,6 +27,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingBottom="20dp"
                 android:background="@color/white">
 
                 <de.hdodenhof.circleimageview.CircleImageView
@@ -64,18 +66,6 @@
                     android:padding="15dp"
                     android:textColor="@color/black"
                     android:textColorHint="@color/grey" />
-
-                <!--                <EditText-->
-                <!--                    android:id="@+id/candidate_post"-->
-                <!--                    android:layout_width="match_parent"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:layout_below="@id/candidate_level"-->
-                <!--                    android:layout_margin="16dp"-->
-                <!--                    android:background="@drawable/candidate_input_background"-->
-                <!--                    android:hint="@string/candidate_s_post"-->
-                <!--                    android:padding="15dp"-->
-                <!--                    android:textColor="@color/black"-->
-                <!--                    android:textColorHint="@color/grey" />-->
 
                 <EditText
                     android:id="@+id/candidate_gender"
@@ -118,14 +108,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/candidate_manifesto"
+                    android:layout_marginStart="20dp"
                     android:layout_marginTop="16dp"
+                    android:background="@color/lighter_green"
                     android:padding="16dp" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/candidate_spinner"
-                    android:layout_marginTop="20dp">
+                    android:layout_marginTop="20dp"
+                    android:background="@color/white">
 
                     <ProgressBar
                         android:id="@+id/createCandidatePB"
@@ -141,10 +134,10 @@
                         android:layout_centerInParent="true"
                         android:layout_marginTop="16dp"
                         android:layout_marginBottom="10dp"
-                        android:backgroundTint="@color/black"
+                        android:backgroundTint="@color/light_green"
                         android:padding="16dp"
                         android:text="@string/add"
-                        android:textColor="@color/light_green"
+                        android:textColor="@color/white"
                         android:textSize="17sp"
                         android:textStyle="bold" />
 

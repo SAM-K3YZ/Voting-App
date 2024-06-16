@@ -9,6 +9,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -35,8 +36,7 @@ public class SignUpActivity extends AppCompatActivity {
     private Button signUpBtn;
     private Uri mainUri = null;
     private FirebaseAuth mAuth;
-
-
+    ProgressBar progressBar;
     public static final String PREFERENCES = "prefkey";
     public static final String Name = "namekey";
     public static final String Email = "emailkey";

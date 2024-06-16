@@ -6,15 +6,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
 
 import com.finalYearProject.votingapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -33,7 +31,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText userEmail, userPassword;
     private Button loginBtn;
-    private TextView forgetPassword;
     private FirebaseAuth mAuth;
     public static final String PREFERENCES = "prefkey";
     public static final String Name = "namekey";
@@ -42,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
     public static final String NationalId = "nationalIdkey";
     //public static final String Image="imagekey";
     public static final String UploadData = "uploaddata";
-
+    ProgressBar progressBar;
     SharedPreferences sharedPreferences;
 
     StorageReference reference;
@@ -75,8 +72,9 @@ public class LoginActivity extends AppCompatActivity {
         userPassword = findViewById(R.id.user_password);
         userEmail = findViewById(R.id.user_email);
         loginBtn = findViewById(R.id.login_btn);
-        forgetPassword = findViewById(R.id.forget_password);
+        TextView forgetPassword = findViewById(R.id.forget_password);
         mAuth = FirebaseAuth.getInstance();
+        progressBar = findViewById(R.id.sign_in_progress_bar);
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,6 +86,7 @@ public class LoginActivity extends AppCompatActivity {
                 mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        setInProgress(false);
                         if (task.isSuccessful()) {
                             verifyEmail();
 
@@ -131,7 +130,7 @@ public class LoginActivity extends AppCompatActivity {
 
             if (name != null && password != null && email != null && nationalId != null) {
                 String uid = mAuth.getUid();
-
+                setInProgress(true);
                 //StorageReference imagePath=reference.child("image_profile").child(uid+".jpg");
                 //imagePath.putFile(Uri.parse(image)).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                 // @Override
@@ -156,7 +155,7 @@ public class LoginActivity extends AppCompatActivity {
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
-
+                                setInProgress(true);
                                 if (task.isSuccessful()) {
                                     sharedPreferences = getApplicationContext().getSharedPreferences(PREFERENCES, MODE_PRIVATE);
                                     SharedPreferences.Editor pref = sharedPreferences.edit();
@@ -184,8 +183,18 @@ public class LoginActivity extends AppCompatActivity {
 
         } else {
             mAuth.signOut();
+            setInProgress(true);
             Toast.makeText(LoginActivity.this, "Please verify your email", Toast.LENGTH_SHORT).show();
+        }
+    }
 
+    void setInProgress(boolean inProgress){
+        if(inProgress){
+            progressBar.setVisibility(View.VISIBLE);
+            loginBtn.setVisibility(View.GONE);
+        }else{
+            progressBar.setVisibility(View.GONE);
+            loginBtn.setVisibility(View.VISIBLE);
         }
     }
 }

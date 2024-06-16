@@ -62,7 +62,7 @@
             android:layout_alignParentEnd="true"
             android:layout_marginTop="5dp"
             android:fontFamily="sans-serif"
-            android:text="@string/president"
+            android:text="@string/candidate_s_level"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="15sp" />

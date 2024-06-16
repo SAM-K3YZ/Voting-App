@@ -106,9 +106,10 @@ public class Create_Candidate_Activity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<DocumentReference> task) {
                                     //buttonSwitch();
                                     if (task.isSuccessful()) {
+                                        setInProgress(true);
                                         Toast.makeText(Create_Candidate_Activity.this, "Data has been stored", Toast.LENGTH_LONG).show();
                                         //progressBar.setVisibility(View.GONE);
-                                        //startActivity(new Intent(Create_Candidate_Activity.this, HomeActivity.class));
+//                                        startActivity(new Intent(Create_Candidate_Activity.this, HomeActivity.class));
                                         //finish();
                                     } else {
                                         //this shows a pop up message after some seconds
@@ -135,14 +136,13 @@ public class Create_Candidate_Activity extends AppCompatActivity {
 
     }
 
-    private Boolean buttonSwitch(){
-        if (clicked){
+    void setInProgress(boolean inProgress){
+        if(inProgress){
             progressBar.setVisibility(View.VISIBLE);
             submitBtn.setVisibility(View.GONE);
-        }else {
+        }else{
             progressBar.setVisibility(View.GONE);
             submitBtn.setVisibility(View.VISIBLE);
         }
-        return false;
     }
 }
